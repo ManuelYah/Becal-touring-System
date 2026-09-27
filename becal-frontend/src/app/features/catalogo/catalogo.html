@@ -1,0 +1,77 @@
+<div class="catalogo-container">
+  
+  <!-- Encabezado -->
+  <header class="catalogo-header">
+    <div class="header-texto">
+      <span class="subtitulo-tag">✦ ARTESANÍAS AUTÉNTICAS</span>
+      <h1 class="titulo-principal">Catálogo de Artesanías y Cuevas</h1>
+    </div>
+    <p class="descripcion-header">
+      Cada pieza es única. Compra directamente con el artesano en su cueva — sin intermediarios.
+    </p>
+  </header>
+
+  <!-- Estado de carga -->
+  <div *ngIf="!artesanias || artesanias.length === 0" class="mensaje-estado">
+    Cargando la lista de artesanías desde la cueva...
+  </div>
+
+  <!-- Grid de Artesanías -->
+  <div *ngIf="artesanias && artesanias.length > 0" class="grid-catalogo">
+    
+    <div *ngFor="let taller of artesanias" class="card-artesano">
+      
+      <!-- Imagen -->
+      <div class="imagen-wrapper">
+        <img 
+          [src]="taller.imagen_url" 
+          [alt]="taller.nombre_taller" 
+          class="img-taller"
+          onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1590736704728-f4730bb30770?q=80&w=500&auto=format&fit=crop'"
+        >
+      </div>
+
+      <!-- Info del Taller -->
+      <div class="card-info">
+        <h3 class="nombre-taller">{{ taller.nombre_taller }}</h3>
+        
+        <span class="badge-calidad">
+          {{ taller.calidad_partidas }}
+        </span>
+
+        <p class="precio-taller">
+          ${{ taller.precio_promedio | number:'1.0-2' }} <span class="moneda">MXN</span>
+        </p>
+      </div>
+
+      <!-- Acciones (WhatsApp y Mapa) -->
+      <div class="card-acciones">
+        <a 
+          [href]="'https://wa.me/' + taller.telefono_whatsapp" 
+          target="_blank" 
+          class="btn btn-whatsapp"
+        >
+          <svg class="icono" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.299.42 2.502 1.154 3.473L6.5 18.25l2.946-.889c.928.583 2.02.918 3.185.919 3.18 0 5.767-2.586 5.768-5.766.001-3.18-2.585-5.766-5.368-5.766zm3.383 8.307c-.144.405-.837.774-1.17.807-.302.029-.699.141-2.274-.51-1.888-.781-3.102-2.703-3.197-2.828-.094-.125-.769-1.023-.769-1.95 0-.927.485-1.382.658-1.57.172-.187.375-.234.5-.234.125 0 .25.001.359.006.114.005.267-.043.418.321.156.375.531 1.296.578 1.39.047.094.078.203.016.328-.063.125-.094.203-.188.312-.094.109-.197.243-.282.327-.095.094-.194.196-.084.384.11.188.489.807 1.05 1.306.722.643 1.332.842 1.52.935.188.094.297.078.406-.047.109-.125.469-.546.594-.734.125-.188.25-.156.422-.094.172.063 1.094.516 1.282.609.188.094.313.141.359.219.046.078.046.453-.098.858z"/>
+          </svg>
+          WhatsApp Directo
+        </a>
+        
+        <a 
+          [href]="taller.google_maps_url" 
+          target="_blank" 
+          class="btn btn-mapa"
+        >
+          <svg class="icono" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+          Ver en Mapa
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
