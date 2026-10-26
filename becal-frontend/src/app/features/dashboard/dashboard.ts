@@ -51,6 +51,44 @@ interface Producto {
 export class Dashboard implements OnInit {
   tallerId: number = 0;
   nombreTallerSesion: string = '';
+
+  // Navegación reactiva entre las tres secciones del dashboard
+  seccionActiva: 'productos' | 'apartados' | 'reservas' = 'productos';
+
+  // Control del sidebar en dispositivos móviles
+  menuAbierto: boolean = false;
+
+  // Contador de solicitudes de apartado pendientes
+  get apartadosPendientes(): number {
+    return this.apartados.filter(ap =>
+      (ap.estado || '').toLowerCase() === 'pendiente'
+    ).length;
+  }
+
+  // Contador de reservas pendientes
+  get reservasPendientes(): number {
+    return this.reservas.filter(res =>
+      (res.estado || '').toLowerCase() === 'pendiente'
+    ).length;
+  }
+
+  // Cambia la sección visible sin recargar la página
+  cambiarSeccion(
+    seccion: 'productos' | 'apartados' | 'reservas'
+  ): void {
+    this.seccionActiva = seccion;
+    this.menuAbierto = false;
+  }
+
+  // Abre o cierra el menú lateral móvil
+  alternarMenu(): void {
+    this.menuAbierto = !this.menuAbierto;
+  }
+
+  // Cierra el menú lateral
+  cerrarMenu(): void {
+    this.menuAbierto = false;
+  }
   
   reservas: Reserva[] = [];
   apartados: Apartado[] = [];
@@ -254,7 +292,8 @@ export class Dashboard implements OnInit {
       imagen_url: prod.imagen_url || '',
       imagenes: imgs
     };
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    this.seccionActiva = 'productos';
+    this.menuAbierto = false;
   }
 
   cancelarEdicion(): void {
